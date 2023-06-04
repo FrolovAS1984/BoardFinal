@@ -1,0 +1,78 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+
+Posts
+{% endblock title %}
+
+
+{% block content %}
+
+  <style>
+   .btn {
+    display: inline-block;
+    background: #008080;
+    color: #000;
+    padding: 1rem 1rem;
+    text-decoration: none;
+    border-radius: 3px;
+   }
+  </style>
+    <h1>Всего постов: {{posts|length}}</h1>
+
+
+
+   <hr>
+
+    <!-- Выводим посты, только если они есть с помощью тега if -->
+    {% if posts %}
+        <table>
+
+            <tr>
+                <td><b>Заголовок</b></td>
+                <td><b>Содержание</b></td>
+                <td><b>Автор</b></td>
+                <td><b>Категория</b></td>
+                <td><b>Файл</b></td>
+            </tr>
+
+
+
+            {% for post in posts %}
+            <tr>
+                <td>{{post.title}}</td>
+                <td>{{post.text}}</td>
+                <td>{{post.author}}</td>
+                <td>{{post.get_category_display}}</td>
+                <td>{{post.upload}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+    <!-- Если постов нет, говорим, что постов нет ;) -->
+        <h2>Постов нет!</h2>
+    {% endif %}
+
+   {# Добавляем пагинацию на страницу #}
+
+   {# Информация о предыдущих страницах #}
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+{% endblock content %}
