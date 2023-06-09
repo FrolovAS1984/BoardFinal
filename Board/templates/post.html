@@ -7,5 +7,57 @@ Post
 {% endblock title %}
 
 {% block content %}
-<h1>{{ post }}</h1>
+<style>
+  table {
+    margin: 0 auto; /* задаем отступы, чтобы таблица была по центру */
+    text-align: center; /* задаем выравнивание содержимого ячеек таблицы по центру */
+  }
+</style>
+<li class="list-group-item">
+    <a>{{post.title}}</a>
+    <small class="text-muted">(автор: {{post.authorPost}})</small>
+    <small class="text-muted">(Дата публикации:{{post.dateArticle|date:' M d Y'}})</small><br>
+    <small class="fw-bold">Персонаж: {{post.get_category_display}}</small>
+    <p>{{post.text}}</p>
+    <img src="{{ post.upload.url}}"width="300" height="250">
+</li>
+<p></p>
+   {% if post.userresponse_set.all %}
+        <table>
+            <tr>
+                <td><b>Автор</b></td>
+                <td><b>Комментарий</b></td>
+                <td><b>Дата публикации</b></td>
+
+<!--               &lt;!&ndash;Условие получается составным.&ndash;&gt;-->
+<!--                {% if perms.news.change_post or perms.news.delete_post %}-->
+<!--                <td><b>Действия</b></td>-->
+
+<!--                {% endif %}-->
+            </tr>
+ <p>Комментарии к объявлению:</p>
+        {% for comment in post.userresponse_set.all %}
+            <tr>
+                <td>{{comment.authorComment}}</td>
+                <td>{{comment.text}}</td>
+                <td>{{comment.dateComment|date:'M d Y'}}</td>
+
+<!--                <td>-->
+<!--                    &lt;!&ndash;А здесь доступ для каждой ссылки теперь будем проверять отдельно &ndash;&gt;-->
+<!--                    {% if perms.news.change_post %}-->
+<!--                    <a href="{% url 'post_update' pk=post.id %}">Изменить</a>-->
+<!--                    {% endif %}-->
+<!--                    {% if perms.news.delete_post %}-->
+<!--                    <a href="{% url 'post_delete' post.id %}">Удалить</a>-->
+<!--                    {% endif %}-->
+<!--                </td>-->
+            </tr>
+        {% endfor %}
+        </table>
+   {% else %}
+    <!-- Если постов нет, говорим, что постов нет ;) -->
+        <p>К данному объявлению еще не было оставлено комментариев</p>
+   {% endif %}
+
 {% endblock content %}
+

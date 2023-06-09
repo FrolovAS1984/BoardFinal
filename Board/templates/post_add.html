@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<h1>Новое объявление</h1>
+<hr>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save" />
+</form>
+{% if post %}
+  <h3>Succesfully uploaded : {{post.title}}</h3>
+  <img src="{{ post.upload.url}}" alt="connect" style="max-height:300px">
+{% endif %}
+{% endblock content %}

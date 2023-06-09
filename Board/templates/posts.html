@@ -7,51 +7,76 @@ Posts
 
 
 {% block content %}
-
+{% load static %}
   <style>
-   .btn {
+   .btn0 {
     display: inline-block;
     background: #008080;
     color: #000;
-    padding: 1rem 1rem;
+    padding: 0.2rem 0.5rem;
     text-decoration: none;
-    border-radius: 3px;
+    border-radius: 10px;
    }
   </style>
-    <h1>Всего постов: {{posts|length}}</h1>
+
+  <style>
+   .btn1 {
+    display: inline-block;
+    background: #B8860B;
+    color: #000;
+    padding: 0.2rem 0.5rem;
+    text-decoration: none;
+    border-radius: 10px;
+   }
+  </style>
+  <style>
+   .btn2 {
+    display: inline-block;
+    background: #FF0000;
+    color: #000;
+    padding: 0.2rem 0.5rem;
+    text-decoration: none;
+    border-radius: 10px;
+   }
+  </style>
+    <h1>Всего объявлений: {{posts|length}}</h1>
 
 
 
-   <hr>
-
-    <!-- Выводим посты, только если они есть с помощью тега if -->
     {% if posts %}
-        <table>
-
-            <tr>
-                <td><b>Заголовок</b></td>
-                <td><b>Содержание</b></td>
-                <td><b>Автор</b></td>
-                <td><b>Категория</b></td>
-                <td><b>Файл</b></td>
-            </tr>
-
-
-
+        <ul class="list-group list-group-flush">
             {% for post in posts %}
-            <tr>
-                <td>{{post.title}}</td>
-                <td>{{post.text}}</td>
-                <td>{{post.author}}</td>
-                <td>{{post.get_category_display}}</td>
-                <td>{{post.upload}}</td>
-            </tr>
+                <li class="list-group-item">
+                    <a href="{% url 'post' post.id %}">{{post.title}}</a>
+                    <small class="text-muted">(Автор: {{post.authorPost}})</small>
+                    <small class="text-muted">(Дата публикации:{{post.dateArticle|date:' M d Y'}})</small> <br>
+                    <small class="fw-bold">Персонаж: {{post.get_category_display}}</small>
+                    <p>{{post.text}}</p>
+                    <div>
+                        <img src="{{ post.upload.url}}"width="300" height="250">
+                        <p></p>
+
+                    <div>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'comment_add' pk=post.id %}" class="btn0">Комментировать</a>
+                        {% if post.authorPost == user %}
+                            <a href="{% url 'post_update' pk=post.id %}" class="btn1">Редактировать</a>
+                        {% endif %}
+                    {% endif %}
+                        {% if perms.posts.delete_post %}
+                        <a href="{% url 'post_delete' pk=post.id %}" class="btn2">Удалить</a>
+                        {% endif %}
+                    </div>
+                    </div>
+
+                </li>
             {% endfor %}
-        </table>
+        </ul>
     {% else %}
-    <!-- Если постов нет, говорим, что постов нет ;) -->
+
         <h2>Постов нет!</h2>
     {% endif %}
+
 
    {# Добавляем пагинацию на страницу #}
 

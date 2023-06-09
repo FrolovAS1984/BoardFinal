@@ -29,24 +29,33 @@
                                 <span class="sr-only">(current)</span>
                             </a>
                         </--li>-->
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/">Админка</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/posts/">Главная</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/posts/search">Поиск</a>
+                            <a class="nav-link" href="/posts/create">Добавить объявление</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/">Админка</a>
+                            <a class="nav-link" href="/posts/author_articles">Страница автора </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Профиль: {{ user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Выход</a>
+                        </li>
+                        {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="/accounts/signup/">Регистрация</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/accounts/login/">Вход</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/accounts/logout/">Выход</a>
-                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
