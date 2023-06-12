@@ -8,6 +8,14 @@ Post
 
 {% block content %}
 {% load static %}
+<h1>Объявления автора</h1>
+<hr>
+   <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" class="mt-3 btn-primary" value="Найти" />
+   </form>
+
+    <hr>
   <style>
    .btn0 {
     display: inline-block;
@@ -39,7 +47,7 @@ Post
     border-radius: 10px;
    }
   </style>
-<h1>Объявления автора</h1>
+
 <style>
   table {
     margin: 0 auto; /* задаем отступы, чтобы таблица была по центру */
@@ -77,10 +85,13 @@ Post
                 <td>{{comment.text}}</td>
                 <td>{{comment.dateComment|date:'M d Y'}}</td>
                 <td>
+                    {% if comment.status %}
+                        <a href="{% url 'comment_status_update' pk=comment.id %}" class="btn2">Отменить</a>
 
-                    <a href="" class="btn0" class="btn0">Принять</a>
-                    <a href="{% url 'comment_delete' comment.id %}" class="btn2">Удалить</a>
-
+                    {% else %}
+                        <a href="{% url 'comment_status_update' pk=comment.id %}" class="btn0">Принять</a>
+                        <a href="{% url 'comment_delete' comment.id %}" class="btn2">Удалить</a>
+                    {% endif %}
                 </td>
 
             </tr>

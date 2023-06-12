@@ -7,6 +7,37 @@ Post
 {% endblock title %}
 
 {% block content %}
+  <style>
+   .btn0 {
+    display: inline-block;
+    background: #008080;
+    color: #000;
+    padding: 0.2rem 0.5rem;
+    text-decoration: none;
+    border-radius: 10px;
+   }
+  </style>
+
+  <style>
+   .btn1 {
+    display: inline-block;
+    background: #B8860B;
+    color: #000;
+    padding: 0.2rem 0.5rem;
+    text-decoration: none;
+    border-radius: 10px;
+   }
+  </style>
+  <style>
+   .btn2 {
+    display: inline-block;
+    background: #FF0000;
+    color: #000;
+    padding: 0.2rem 0.5rem;
+    text-decoration: none;
+    border-radius: 10px;
+   }
+  </style>
 <style>
   table {
     margin: 0 auto; /* задаем отступы, чтобы таблица была по центру */
@@ -28,34 +59,19 @@ Post
                 <td><b>Автор</b></td>
                 <td><b>Комментарий</b></td>
                 <td><b>Дата публикации</b></td>
-
-<!--               &lt;!&ndash;Условие получается составным.&ndash;&gt;-->
-<!--                {% if perms.news.change_post or perms.news.delete_post %}-->
-<!--                <td><b>Действия</b></td>-->
-
-<!--                {% endif %}-->
             </tr>
  <p>Комментарии к объявлению:</p>
         {% for comment in post.userresponse_set.all %}
+          {% if comment.status %}
             <tr>
                 <td>{{comment.authorComment}}</td>
                 <td>{{comment.text}}</td>
                 <td>{{comment.dateComment|date:'M d Y'}}</td>
-
-<!--                <td>-->
-<!--                    &lt;!&ndash;А здесь доступ для каждой ссылки теперь будем проверять отдельно &ndash;&gt;-->
-<!--                    {% if perms.news.change_post %}-->
-<!--                    <a href="{% url 'post_update' pk=post.id %}">Изменить</a>-->
-<!--                    {% endif %}-->
-<!--                    {% if perms.news.delete_post %}-->
-<!--                    <a href="{% url 'post_delete' post.id %}">Удалить</a>-->
-<!--                    {% endif %}-->
-<!--                </td>-->
             </tr>
+          {% endif %}
         {% endfor %}
         </table>
    {% else %}
-    <!-- Если постов нет, говорим, что постов нет ;) -->
         <p>К данному объявлению еще не было оставлено комментариев</p>
    {% endif %}
 

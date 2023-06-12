@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Article, UserResponse
 from .forms import ArticleForm, CommentForm
 from django.urls import reverse_lazy
+from .filters import ArticleFilter
 
 
 class ArticleList(ListView):
@@ -22,7 +23,17 @@ class AuthorArticleList(LoginRequiredMixin, ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Article.objects.filter(authorPost=self.request.user)
+        queryset = super().get_queryset()
+        queryset = queryset.filter(authorPost=self.request.user)
+        self.filterset = ArticleFilter(self.request.GET, queryset)
+
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['filterset'] = self.filterset
+        return context
 
 
 class ArticleDetail(DetailView):
@@ -81,4 +92,14 @@ class CommentDelete(DeleteView):
     model = UserResponse
     template_name = 'comment_delete.html'
     success_url = reverse_lazy('author_articles')
+
+
+class CommentStatusUpdate(LoginRequiredMixin, UpdateView):
+    model = UserResponse
+    fields = ['status']
+    template_name = 'update_status.html'
+
+    def form_valid(self, form):
+        form.instance.update_status(form.cleaned_data['status'])
+        return redirect('author_articles')
 

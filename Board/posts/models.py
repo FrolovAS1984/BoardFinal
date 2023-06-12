@@ -42,3 +42,7 @@ class UserResponse(models.Model):
 
     def get_absolute_url(self):
         return reverse('post', args=[str(self.id)])
+
+    def update_status(self, status):
+        self.status = status
+        self.save()
