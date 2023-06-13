@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives, send_mail
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
 from .models import UserResponse
@@ -48,5 +48,22 @@ def comment_created(instance, created, **kwargs):
        )
 
     msg = EmailMultiAlternatives(subject, text_content, None, [author.email])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+
+
+@receiver(pre_delete, sender=UserResponse)
+def notify_comment_author(sender, instance, **kwargs):
+    email = instance.authorComment.email
+    article_title = instance.article.title
+    subject = f'Отклонение комментария к объвлению "{article_title}"'
+    text_content = (
+        f'Удален комментарий "{instance.text}" к объявлению "{article_title}"'
+    )
+    html_content = (
+        f'Удален комментарий "{instance.text}" к объявлению "{article_title}"'
+    )
+
+    msg = EmailMultiAlternatives(subject, text_content, None, [email])
     msg.attach_alternative(html_content, "text/html")
     msg.send()

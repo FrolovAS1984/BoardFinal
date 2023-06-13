@@ -61,7 +61,14 @@ Post
     <small class="text-muted">(Дата публикации:{{article.dateArticle|date:' M d Y'}})</small><br>
     <small class="fw-bold">Персонаж: {{article.get_category_display}}</small>
     <p>{{article.text}}</p>
-    <img src="{{ article.upload.url}}"width="300" height="250">
+    <div>
+        <img src="{{ article.upload.url}}"width="300" height="250">
+            <p></p>
+            <div>
+                <a href="{% url 'post_update' pk=article.id %}" class="btn1">Редактировать</a>
+            </div>
+    </div>
+
 </li>
 <p></p>
    {% if article.userresponse_set.all %}
@@ -72,11 +79,6 @@ Post
                 <td><b>Дата публикации</b></td>
                 <td><b>Действия</b></td>
 
-<!--               &lt;!&ndash;Условие получается составным.&ndash;&gt;-->
-<!--                {% if perms.news.change_post or perms.news.delete_post %}-->
-<!--                <td><b>Действия</b></td>-->
-
-<!--                {% endif %}-->
             </tr>
  <p>Комментарии к объявлению:</p>
         {% for comment in article.userresponse_set.all %}

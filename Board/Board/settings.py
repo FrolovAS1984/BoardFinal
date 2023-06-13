@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
+from .secret_key import *
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -156,11 +158,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = "FrolovAS1984@yandex.ru"
-EMAIL_HOST_PASSWORD = "tfikjrrfkclndffe"
+EMAIL_HOST_USER = EMAIL_HOST_USER_s
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD_s
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = "FrolovAS1984@yandex.ru"
+DEFAULT_FROM_EMAIL = DEFAULT_FROM_EMAIL_s
 
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 

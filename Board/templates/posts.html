@@ -39,9 +39,6 @@ Posts
     border-radius: 10px;
    }
   </style>
-    <h1>Всего объявлений: {{posts|length}}</h1>
-
-
 
     {% if posts %}
         <ul class="list-group list-group-flush">
@@ -50,7 +47,7 @@ Posts
                     <a href="{% url 'post' post.id %}">{{post.title}}</a>
                     <small class="text-muted">(Автор: {{post.authorPost}})</small>
                     <small class="text-muted">(Дата публикации:{{post.dateArticle|date:' M d Y'}})</small> <br>
-                    <small class="fw-bold">Персонаж: {{post.get_category_display}}</small>
+                    <small class="fw-bold">Персонаж: {{ post.get_category_display }}</a></small>
                     <p>{{post.text}}</p>
                     <div>
                         <img src="{{ post.upload.url}}"width="300" height="250">
@@ -59,9 +56,6 @@ Posts
                     <div>
                     {% if user.is_authenticated %}
                         <a href="{% url 'comment_add' pk=post.id %}" class="btn0">Комментировать</a>
-                        {% if post.authorPost == user %}
-                            <a href="{% url 'post_update' pk=post.id %}" class="btn1">Редактировать</a>
-                        {% endif %}
                     {% endif %}
                         {% if perms.posts.delete_post %}
                         <a href="{% url 'post_delete' pk=post.id %}" class="btn2">Удалить</a>
