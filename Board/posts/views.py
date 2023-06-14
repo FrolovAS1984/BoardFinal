@@ -1,9 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Article, UserResponse
-from .forms import ArticleForm, CommentForm
 from django.urls import reverse_lazy
+
+from .models import Article, UserResponse
+
+from .forms import ArticleForm, CommentForm
+
 from .filters import ArticleFilter
 
 
@@ -58,7 +61,7 @@ class ArticleUpdate(UpdateView):
     template_name = 'post_add.html'
 
     def form_valid(self, form):
-        form.user = self.request.user  # передаем текущего пользователя в форму
+        form.user = self.request.user
         return super().form_valid(form)
 
 
@@ -84,7 +87,7 @@ class CommentCreate(CreateView):
         response.article = article
         response.save()
         form.save_m2m()
-        # Наконец, делаем редирект к странице, на которой был оставлен комментарий
+        # Делаем редирект к странице, на которой был оставлен комментарий
         return redirect(article.get_absolute_url())
 
 

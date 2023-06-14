@@ -42,12 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'fpages',
-    'posts',
     'django_filters',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'fpages',
+    'posts',
     'accounts',
 
 ]

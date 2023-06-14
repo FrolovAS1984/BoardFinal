@@ -1,6 +1,8 @@
 from django_filters import FilterSet, CharFilter, DateTimeFilter, ChoiceFilter
-from .models import Article
+
 from django.forms import DateTimeInput
+
+from .models import Article
 
 
 class ArticleFilter(FilterSet):
@@ -22,4 +24,3 @@ class ArticleFilter(FilterSet):
         label='Персонажи',
         empty_label='Все персонажи'
     )
-

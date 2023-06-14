@@ -1,5 +1,4 @@
-from django.contrib.auth.models import User
-from django.core.mail import EmailMultiAlternatives, send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
